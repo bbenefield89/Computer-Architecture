@@ -94,8 +94,18 @@ void cpu_run(struct cpu *cpu)
                 cpu->registers[ operandA ] = cpu->registers[ operandA ] * cpu->registers[ operandB ];
                 break;
             
+            case POP:
+                printf("\nPOP: %d from RAM[%d] into R%d\n\n", cpu->ram[ cpu->sp ], cpu->sp, operandA);
+                cpu->registers[ operandA ] = cpu->ram[ cpu->sp++ ];
+                break;
+            
             case PRN:
                 printf("\nPRN: %d\n\n", cpu->registers[ operandA ]);
+                break;
+
+            case PUSH:
+                printf("\nPUSH: %d from R%d into RAM[%d]\n\n", cpu->registers[ operandA ], operandA, cpu->sp - 1);
+                cpu->ram[ --cpu->sp ] = cpu->registers[ operandA ];
                 break;
         }
 
